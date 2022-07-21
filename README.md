@@ -1,3 +1,5 @@
+https://dev.to/dqunbp/using-mapbox-gl-in-react-with-next-js-2glg
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
