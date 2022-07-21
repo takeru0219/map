@@ -1,4 +1,6 @@
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { collection, getDocs, getFirestore } from 'firebase/firestore'
+
+// https://maku.blog/p/m3bjrz7/
 
 export type Facility = {
     id: string
@@ -13,15 +15,16 @@ export type Facility = {
 
 export type Comment = {
     id: string
-    facility_id: string
+    facilityId: string
     by: string
+    firstRegistered: Date
     lastChanged: Date
 }
 
-export async function getFacilities(): Promise<[ Facility[], Comment[] ]>  {
+export async function getAllFacilities(): Promise<[Facility[], Comment[]]>  {
     const facilities = new Array<Facility>()
     const comments = new Array<Comment>()
-    
+
     const db = getFirestore()
     const facilitiesSnapshot = await getDocs(collection(db, '/facility'))
     const commentsSnapshot = await getDocs(collection(db, '/comment'))
@@ -37,4 +40,9 @@ export async function getFacilities(): Promise<[ Facility[], Comment[] ]>  {
     })
 
     return { facilities, comments }
+}
+
+export async function getNearFacilities(): Promise<Facility[] | null> {
+    // https://zenn.dev/yskuue/articles/fb433692fa922d
+    return null
 }
