@@ -1,3 +1,38 @@
+import React, { useState, useEffect } from 'react'
+
+import { getAllFacilities, Facility, Comment } from '../utils/firebase/firestore'
+
+export type UseAllFacilitiesOutput = {
+    isLoading: boolean,
+    facilities: Facility[],
+    comments: Comment[]
+}
+
+const DEFAULT = {
+    isLoading: true,
+    facilities: [],
+    comments: []
+}
+
+export function useAllFacilities(): UseAllFacilitiesOutput {
+    const [output, setOutput] = useState<UseAllFacilitiesOutput>(DEFAULT)
+
+    useEffect(() => {
+        void (async () => {
+            const [f, c] = await getAllFacilities()
+            setOutput({
+                isLoading: false,
+                facilities: f,
+                comments: c
+            })
+        })()
+    }, [])
+
+
+    return output
+}
+
+
 type Marker = {
     name: string,
     kind: string,

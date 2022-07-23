@@ -1,4 +1,4 @@
-import { collection, getDocs, getFirestore } from 'firebase/firestore'
+import { collection, GeoPoint, getDocs, getFirestore } from 'firebase/firestore'
 
 // https://maku.blog/p/m3bjrz7/
 
@@ -10,12 +10,13 @@ export type Facility = {
     firstRegistered: Date
     lastChanged: Date
     lastChangedBy: string
-    lngLatLike: [number, number]
+    lngLatLike: GeoPoint
 }
 
 export type Comment = {
     id: string
     facilityId: string
+    comment: string
     by: string
     firstRegistered: Date
     lastChanged: Date
@@ -30,16 +31,16 @@ export async function getAllFacilities(): Promise<[Facility[], Comment[]]>  {
     const commentsSnapshot = await getDocs(collection(db, '/comment'))
 
     facilitiesSnapshot.forEach((doc) =>{
-        const facility = doc.data() as Facility
-        facilities.push({ ...facility, id: doc.id})
+        const facility = doc.data()
+        facilities.push({ ...facility, id: doc.id} as Facility)
     })
 
     commentsSnapshot.forEach((doc) =>{
-        const comment = doc.data() as Comment
-        comments.push({ ...comment, id: doc.id})
+        const comment = doc.data()
+        comments.push({ ...comment, id: doc.id} as Comment)
     })
 
-    return { facilities, comments }
+    return [facilities, comments]
 }
 
 export async function getNearFacilities(): Promise<Facility[] | null> {

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import mapboxgl, { LngLat, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import marker from './load-markers'
+import { useAllFacilities, UseAllFacilitiesOutput } from "./load-markers";
 import markers from "./load-markers";
 
 interface MapboxMapProps {
@@ -22,6 +22,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded 
 
     const mapNode = useRef(null);
 
+    const {isLoading, facilities, comments} = useAllFacilities()
+
     useEffect(() => {
         const node = mapNode.current;
 
@@ -36,9 +38,10 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded 
             ...initialOptions,
         });
 
-        markers.map((e, idx) => {
+        facilities?.map((e) => {
+            console.log(e.lngLatLike)
             new mapboxgl.Marker()
-            .setLngLat(e.lngLatLike)
+            .setLngLat([e.lngLatLike.longitude, e.lngLatLike.latitude])
             .setPopup(new Popup({closeButton: true}).setText(e.name))
             .addTo(mapboxMap)
         });
