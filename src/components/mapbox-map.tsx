@@ -3,25 +3,32 @@ import { useState, useRef, useEffect } from 'react';
 import mapboxgl, { LngLat, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 import { CustomMarker } from "./custom-marker";
-import { useAllFacilities } from "./load-markers";
-import { useCurrentLocation, Location } from "./load-location";
+import { Location } from "./load-location";
+import { Facility } from "../utils/firebase/firestore";
 
 interface MapboxMapProps {
     initialOptions?: Omit<mapboxgl.MapboxOptions, "container">;
+    onCreated?(map: mapboxgl.Map): void;
     onMapLoaded?(map: mapboxgl.Map): void;
     onMapRemoved?(): void;
+    currentLocation: Location
+    facilities: Facility[]
 }
 
-const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded }) => {
+const MapboxMap: React.FC<MapboxMapProps> = ({
+    initialOptions = {},
+    currentLocation,
+    facilities,
+    onCreated, 
+    onMapLoaded,
+    onMapRemoved
+}) => {
     const [map, setMap] = useState<mapboxgl.Map>();
 
     const mapNode = useRef(null);
-
-    // 必要な情報を取ってくる
-    const {isLoading, facilities, comments} = useAllFacilities()
-    const {isLocationLoading, currentLocation, status} = useCurrentLocation()
-    console.log(currentLocation)
 
     useEffect(() => {
         const node = mapNode.current;
@@ -52,15 +59,15 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded 
 
         setMap(mapboxMap);
 
+        if (onCreated) onCreated(mapboxMap);
         if (onMapLoaded) mapboxMap.once('load', onMapLoaded);
 
         return () => {
             mapboxMap.remove();
-            // if (onMapRemoved) onMapRemoved();
+            if (onMapRemoved) onMapRemoved();
         };
-    }, [facilities, currentLocation]);
+    }, [currentLocation]);
 
-    if(isLoading && isLocationLoading) return <p>Loading.....</p>
     return <div ref={mapNode} style={{width: "100%", height: "100%"}}></div>
 }
 
