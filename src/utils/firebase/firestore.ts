@@ -34,7 +34,6 @@ export async function getAllFacilities(): Promise<Facility[]> {
   commentsSnapshot.forEach((doc) => {
     const comment = doc.data()
     comments.push({ ...comment, id: doc.id } as Comment)
-    console.log(comments)
   })
 
   facilitiesSnapshot.forEach((doc) => {

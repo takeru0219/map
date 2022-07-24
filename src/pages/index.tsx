@@ -4,6 +4,7 @@ import MapboxMap from "../components/mapbox-map";
 
 import { useCurrentLocation, Location } from "../components/load-location";
 import { useAllFacilities } from "../components/load-markers";
+import FacilityComponent from '../components/form-facility';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -11,7 +12,6 @@ function App() {
 
   const {isLocationLoading, currentLocation, status} = useCurrentLocation()
   const {isLoading, facilities} = useAllFacilities()
-  console.log(facilities)
 
   return (
   <>
@@ -22,6 +22,7 @@ function App() {
         currentLocation={currentLocation}
         facilities={facilities}
       />
+      <FacilityComponent />
     </div>
       {loading && <MapLoadingHolder className="loading-holder" />}
     </div>

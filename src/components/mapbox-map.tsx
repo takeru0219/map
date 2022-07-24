@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import mapboxgl, { LngLat, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -68,7 +67,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         };
     }, [currentLocation]);
 
-    return <div ref={mapNode} style={{width: "100%", height: "100%"}}></div>
+    return <div ref={mapNode} style={{width: "100%", height: "60%"}}></div>
 }
 
 export default MapboxMap
