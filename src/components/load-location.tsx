@@ -15,20 +15,18 @@ export function useCurrentLocation() {
     const [status, setStatus] = useState<string | null>(null)
 
     useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                setCurrentLocation({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                })
-                setIsLocationLoading(false)
-            }, (error) => {
-                setStatus(error.message)
-                setIsLocationLoading(false)
-            }, {
-                timeout: 3000
+        navigator.geolocation.getCurrentPosition((position) => {
+            setCurrentLocation({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
             })
-        } 
+            setIsLocationLoading(false)
+        }, (error) => {
+            setStatus(error.message)
+            setIsLocationLoading(false)
+        }, {
+            timeout: 5000
+        })
     }, [])
 
     return { isLocationLoading, currentLocation, status }
