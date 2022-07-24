@@ -10,7 +10,7 @@ export type Facility = {
     firstRegistered: Date
     lastChanged: Date
     lastChangedBy: string
-    lngLatLike: GeoPoint
+    lngLatLike: GeoPoint[]
 }
 
 export type Comment = {

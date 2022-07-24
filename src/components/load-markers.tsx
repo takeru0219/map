@@ -8,7 +8,7 @@ export type UseAllFacilitiesOutput = {
     comments: Comment[]
 }
 
-const DEFAULT = {
+const DEFAULT: UseAllFacilitiesOutput = {
     isLoading: true,
     facilities: [],
     comments: []
@@ -27,7 +27,6 @@ export function useAllFacilities(): UseAllFacilitiesOutput {
             })
         })()
     }, [])
-
 
     return output
 }

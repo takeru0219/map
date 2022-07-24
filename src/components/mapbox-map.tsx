@@ -3,7 +3,10 @@ import { useState, useRef, useEffect } from 'react';
 import mapboxgl, { LngLat, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { useAllFacilities, UseAllFacilitiesOutput } from "./load-markers";
+import Loader from 'react-loader-spinner'
+
+import { useAllFacilities } from "./load-markers";
+import { useCurrentLocation, Location } from "./load-location";
 import markers from "./load-markers";
 
 interface MapboxMapProps {
@@ -14,15 +17,17 @@ interface MapboxMapProps {
 
 const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded }) => {
     const [map, setMap] = useState<mapboxgl.Map>();
-
-    const currentLocation = {
-        latitude: 35.681236,
-        longitude: 139.767125
-    }
+    // const [currentLocation, setCurrentLocation] = useState<Location>({
+    //     latitude: 35.681236,
+    //     longitude: 139.767125
+    // })
 
     const mapNode = useRef(null);
 
+    // 必要な情報を取ってくる
     const {isLoading, facilities, comments} = useAllFacilities()
+    const {isLocationLoading, currentLocation, status} = useCurrentLocation()
+    console.log(currentLocation)
 
     useEffect(() => {
         const node = mapNode.current;
@@ -37,11 +42,12 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded 
             zoom: 15,
             ...initialOptions,
         });
-
-        facilities?.map((e) => {
-            console.log(e.lngLatLike)
+        
+        facilities?.forEach((e) => {
+            const location = e.lngLatLike[0].toJSON()
             new mapboxgl.Marker()
-            .setLngLat([e.lngLatLike.longitude, e.lngLatLike.latitude])
+            // TODO: lat, lng が入ってない時の処理を考える
+            .setLngLat([location.longitude, location.latitude])
             .setPopup(new Popup({closeButton: true}).setText(e.name))
             .addTo(mapboxMap)
         });
@@ -54,8 +60,9 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded 
             mapboxMap.remove();
             // if (onMapRemoved) onMapRemoved();
         };
-    }, []);
+    }, [facilities, currentLocation]);
 
+    if(isLoading && isLocationLoading) return <p>Loading.....</p>
     return <div ref={mapNode} style={{width: "100%", height: "100%"}}></div>
 }
 
