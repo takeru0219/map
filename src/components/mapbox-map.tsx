@@ -3,11 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import mapboxgl, { LngLat, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import Loader from 'react-loader-spinner'
-
+import { CustomMarker } from "./custom-marker";
 import { useAllFacilities } from "./load-markers";
 import { useCurrentLocation, Location } from "./load-location";
-import markers from "./load-markers";
 
 interface MapboxMapProps {
     initialOptions?: Omit<mapboxgl.MapboxOptions, "container">;
@@ -17,10 +15,6 @@ interface MapboxMapProps {
 
 const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded }) => {
     const [map, setMap] = useState<mapboxgl.Map>();
-    // const [currentLocation, setCurrentLocation] = useState<Location>({
-    //     latitude: 35.681236,
-    //     longitude: 139.767125
-    // })
 
     const mapNode = useRef(null);
 
@@ -45,11 +39,15 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ initialOptions = {}, onMapLoaded 
         
         facilities?.forEach((e) => {
             const location = e.lngLatLike[0].toJSON()
-            new mapboxgl.Marker()
+            const marker = new CustomMarker(e)
             // TODO: lat, lng が入ってない時の処理を考える
             .setLngLat([location.longitude, location.latitude])
             .setPopup(new Popup({closeButton: true}).setText(e.name))
             .addTo(mapboxMap)
+
+            marker.getElement().addEventListener('click', () => {
+                console.log(marker.getFacilityInfo())
+            })
         });
 
         setMap(mapboxMap);

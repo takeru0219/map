@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import React, { useEffect, useState } from "react";
 
 export type Location = {
