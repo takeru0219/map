@@ -10,7 +10,8 @@ function App() {
   const handleMapLoading = () => setLoading(false);
 
   const {isLocationLoading, currentLocation, status} = useCurrentLocation()
-  const {isLoading, facilities, comments} = useAllFacilities()
+  const {isLoading, facilities} = useAllFacilities()
+  console.log(facilities)
 
   return (
   <>

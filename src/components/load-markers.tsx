@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
 
-import { getAllFacilities, Facility, Comment } from '../utils/firebase/firestore'
+import { getAllFacilities, Facility } from '../utils/firebase/firestore'
 
 export type UseAllFacilitiesOutput = {
     isLoading: boolean,
     facilities: Facility[],
-    comments: Comment[]
 }
 
 const DEFAULT: UseAllFacilitiesOutput = {
     isLoading: true,
     facilities: [],
-    comments: []
 }
 
 export function useAllFacilities(): UseAllFacilitiesOutput {
@@ -19,11 +17,10 @@ export function useAllFacilities(): UseAllFacilitiesOutput {
 
     useEffect(() => {
         void (async () => {
-            const [f, c] = await getAllFacilities()
+            const f = await getAllFacilities()
             setOutput({
                 isLoading: false,
                 facilities: f,
-                comments: c
             })
         })()
     }, [])
