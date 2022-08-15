@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { getAllFacilities, Facility } from '../utils/firebase/firestore'
+import { getAllFacilities, Facility } from '../../utils/firebase/firestore'
 
 export type UseAllFacilitiesOutput = {
     isLoading: boolean,

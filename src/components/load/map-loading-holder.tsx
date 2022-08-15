@@ -1,4 +1,4 @@
-import WorldIcon from "../components/world-icon";
+import WorldIcon from "./world-icon";
 
 function MapLoadingHolder({ className = "" }: {className?: string}) {
   return (
