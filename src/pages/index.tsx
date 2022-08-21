@@ -27,8 +27,7 @@ function App() {
           currentLocation={currentLocation}
           facilities={facilities}
         />
-        {selectedFacility && (
-        <Flex direction='row'>
+        <Flex direction={['column', 'row']}>
           <Box flex='3'>
             <FacilityComponent 
               facility={selectedFacility}
@@ -39,7 +38,7 @@ function App() {
               facility={selectedFacility}
             />
           </Box>
-        </Flex>)}
+        </Flex>
     </div>
       {(isLocationLoading || loading) && <MapLoadingHolder className="loading-holder" />}
     </div>
