@@ -30,24 +30,10 @@ const FacilityComponent: React.FC<any> = (props: Props) => {
                 />
                 <FormLabel>種類</FormLabel>
                     <Select placeholder="種類">
-                        <option>ラーメン</option>
+                        {facilityKind.map((e) => (<Select>{e}</Select>))}
                     </Select>
             </FormControl>
         </Box>
-        // <form onSubmit={handleSubmit}>
-        //     <label>
-        //         店名: 
-        //         <input type="text" value={name} onChange={e => setName(e.target.value)}/>
-        //     </label>
-        //     <label>
-        //         種類: 
-        //         <input type="text" value={kind} onChange={e => setKind(e.target.value)}/>
-        //     </label>
-        //     <label>
-        //         種類: 
-        //         <input type="text" value={kind} onChange={e => setKind(e.target.value)}/>
-        //     </label>
-        // </form>
     )
 }
 

@@ -1,4 +1,4 @@
-import { collection, GeoPoint, CollectionReference, getDocs, getFirestore } from 'firebase/firestore'
+import { collection, GeoPoint, CollectionReference, getDocs, getFirestore, Timestamp } from 'firebase/firestore'
 
 // https://maku.blog/p/m3bjrz7/
 
@@ -7,20 +7,20 @@ export type Facility = {
   name: string
   kind: string
   link: string
-  firstRegistered: Date
-  lastChanged: Date
+  firstRegistered: Timestamp
+  lastChanged: Timestamp
   lastChangedBy: string
-  lngLatLike: GeoPoint[]
+  lngLatLike: GeoPoint
   comment: Comment[]
 }
 
-type Comment = {
+export type Comment = {
   id: string
   facilityId: CollectionReference
   comment: string
   by: string
-  firstRegistered: Date
-  lastChanged: Date
+  firstRegistered: Timestamp
+  lastChanged: Timestamp
 }
 
 export async function getAllFacilities(): Promise<Facility[]> {

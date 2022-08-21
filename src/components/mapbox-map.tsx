@@ -46,7 +46,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         });
         
         facilities?.forEach((e) => {
-            const location = e.lngLatLike[0].toJSON()
+            const location = e.lngLatLike.toJSON()
             const marker = new CustomMarker(e)
             // TODO: lat, lng が入ってない時の処理を考える
             .setLngLat([location.longitude, location.latitude])

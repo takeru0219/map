@@ -7,6 +7,7 @@ import { useCurrentLocation, Location } from "../components/load/load-location";
 import { useAllFacilities } from "../components/load/load-markers";
 import FacilityComponent from '../components/form/form-facility';
 import { Facility } from '../utils/firebase/firestore';
+import CommentComponent from '../components/form/form-comment';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -26,15 +27,15 @@ function App() {
           currentLocation={currentLocation}
           facilities={facilities}
         />
-        {selectedFacility && 
-        (<Flex>
+        {selectedFacility && (
+        <Flex direction='row'>
           <Box flex='3'>
             <FacilityComponent 
               facility={selectedFacility}
             />
           </Box>
           <Box flex='2'>
-            <FacilityComponent 
+            <CommentComponent 
               facility={selectedFacility}
             />
           </Box>
